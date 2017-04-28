@@ -1,8 +1,8 @@
-# Coding Style Guide
+# PHP
 
 We're using [PSR-2 Coding Standard](https://docs.opnsense.org/development/guidelines/psr2.html), except cases stated explicitly different.
 
-All good practicies are mentioned in [PHP: The Right Way](http://www.phptherightway.com/).
+All good practices are mentioned in [PHP: The Right Way](http://www.phptherightway.com/).
 
 ## Overview of PSR-2
 

@@ -1,10 +1,10 @@
-# Coding Style Guide
+# Laravel
 
 Follow Style Guide for [PHP](/highsolutions/Standards/wiki/PHP).
 
 ## Installation
 
-* Keep in mind server requirements and choose newest version of Laravel that fulfills PHP version on production server.
+* Keep in mind server requirements and choose the newest version of Laravel that fulfills PHP version on production server.
 * Configure .env.server file to be ready to just rename it to .env on server.
 * Configure GitHub hook to Continuous Integration on every push.
 * Use *.dev or *.local developer domain on your local machine.
@@ -87,7 +87,7 @@ public function store(Request $request)
 ## Helpers and extending core
 
 * Use helper methods only for views and routes and only when helper method will be reusable in many places.
-* Protect helpers functions before duplications, use SNAKE_CASE and write comments:
+* Protect helpers functions before duplicating, use SNAKE_CASE and write comments:
 
 ```php
 if (!function_exists('compare_floats')) {
@@ -109,7 +109,7 @@ if (!function_exists('compare_floats')) {
 
 ## Routing
 
-* Every route has to be binded with controller method. Use closures only for testing.
+* Every route has to be bound with controller method. Use closures only for testing.
 * Use regular expression constraints for parameters.
 * Name every route. Base on Resource Controller convention.
 * Do not use in views or controllers `\URL::to()` regarding routes within application. Use `route(...)`.

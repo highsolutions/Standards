@@ -80,7 +80,7 @@ This will add staged files to repo.
 
 This will add all new and modified files and create a commit. Beware, untracked files won't be added.
 
-**Message of commit should be explanatory.** Commits name like *fix*, *quickfix*, *merge* should be avoided. On remote branch are forbidden. Keep history of commits clean and clear. On local branch of course you can named them like this, but before push, please `rebase` them.
+**Message of commit should be explanatory.** Commits name like *fix*, *quickfix*, *merge* should be avoided. On remote branch are forbidden. Keep history of commits clean and clear. On local branch of course you can name them like this, but before push, please `rebase` them.
 
 Prefix message commit with `[WIP]` (Works In Progress) to mark this commit as not finished and that breaks something in repo.
 
@@ -128,7 +128,7 @@ It's the same as:
 
 	git checkout -
 
-This command change current branch to default branch of you repo (mostly *master*). You don't have to remember this name.
+This command changes current branch to default branch of you repo (mostly *master*). You don't have to remember this name.
 
 ### Update list of branches from remote repo
 
@@ -211,7 +211,7 @@ Repeat operation until the first commit introducing bug left. You will get SHA o
 	git bisect reset
 	git rebase -i SHA^
 
-Where *SHA* means here SHA of commit with bug. Editor will open and this will be the last commit on the list. Use *edit* operation and amend commit. Done!
+*SHA* means here SHA of commit with bug. Editor will open and this will be the last commit on the list. Use *edit* operation and amend commit. Done!
 
 ## Aliases for popular complex commands
 
@@ -228,7 +228,7 @@ Use them only when you are not pair programming.
 ### Development on simple project
 
 1. Use *dev* branch for all commits. Make this branch default one.
-2. When there is few developers on project, every one should work on working branch (=own or feature branch) and merge commits to *dev* branch when some functionality is finished.
+2. When there are few developers on project, every one should work on working branch (=own or feature branch) and merge commits to *dev* branch when some functionality is finished.
 3. When project is ready for deployment, merge *dev* into *master* branch, which will be cloned on production server.
 4. When state of website will be tested and ready for another deployment, merge changes from *dev* to *master*.
 
