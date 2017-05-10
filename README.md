@@ -9,6 +9,7 @@ HighSolutions Coding Standards
 1. [SQL & Eloquent](SQL.md)
 1. [HTML & Blade](HTML.md)
 1. [CSS, SASS, BEM, Namespaces](CSS.md)
-1. ~~[JS & jQuery & Vue.js](JavaScript.md)~~
+1. [JS & jQuery & Vue.js](JavaScript.md)
 1. [Git](Git.md)
 1. ~~[Asana](Asana.md)~~
+1. ~~[Workflow](Workflow.md]~~
