@@ -393,3 +393,9 @@ Further reading:
 * [Writing modular CSS (Part 1) - BEM](https://zellwk.com/blog/css-architecture-1/)
 * [Writing modular CSS (Part 2) - Namespaces](https://zellwk.com/blog/css-architecture-2/)
 * [Writing modular CSS (Part 3) - File structures](https://zellwk.com/blog/css-architecture-3/)
+
+## Flexbox
+
+* DO NOT use flexbox for page layout. Use CSS Grid or typical approach with percentages, max-width and media queries.
+* DO NOT add `display: flex;` to every single container. Add it only when suitable.
+* Use flexbox primary for: scaling, alignment and order.
