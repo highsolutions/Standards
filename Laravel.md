@@ -91,13 +91,13 @@ public function store(Request $request)
 
 ```php
 if (!function_exists('compare_floats')) {
-    /**
-     * Compare float values ignoring rounding issues
-     * 
-     * @param float $a
-     * @param float $b
-     * @return bool
-     */
+	/**
+	 * Compare float values ignoring rounding issues
+	 * 
+	 * @param float $a
+	 * @param float $b
+	 * @return bool
+	 */
 	function compare_floats($a, $b)
 	{
 		return abs($a - $b) < 0.001;
@@ -148,7 +148,7 @@ if (!function_exists('compare_floats')) {
 	* **uploads** - all image files that are uploaded or related to dynamic data in database
 		* Two ways of handling: or just flat list of files with hashed name or grouped in subfolders for domain separation (e.g. categories, articles, avatars etc.)
 * Every folder should contain empty `index.html` file to prevent directory listing.
-* Only `uploads` folder should have write rights from outside group (0777).
+* Only `uploads` folder should have write rights from outside group (0777) or (0755) depends on security policy.
 * Remove unnecessary files when deleting related domain objects.
 
 ## Notifications
@@ -182,7 +182,7 @@ if (!function_exists('compare_floats')) {
     public function testDashboard()
     {       
         $response = $this->actingAs(User::find(1))
-                         ->get(route('dashboard'));        
+			->get(route('dashboard'));        
         $response->assertStatus(200);
     }
 ```
