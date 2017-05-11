@@ -248,3 +248,7 @@ public function testLoginClick()
 * If package is complete, refactored and useful - publish as Open Source projects. But be sure to make it as good as possible - your code is yours and ours visitcard.
 * During development, store packages in `App\Packages\`.
 * Prepare complete `readme.MD` file and tests of package (this is also a documentation).
+
+## Good practices
+
+* Use `Carbon\Carbon` for date manipulation, parsing and formatting instead of `DateTime`.
