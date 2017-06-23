@@ -171,6 +171,18 @@ This command displays history of every operation (rebase, cherry-pick, checkout,
 
 This command will merge commits from *another_branch* to current one.
 
+### Resolve external conflicts 
+
+	git checkout --ours FILE
+	
+This command will resolve conflicts of specified FILE (can be directory or even omitted) using your version of files.
+
+### Resolve my conflicts 
+
+	git checkout --theirs FILE
+	
+This command will resolve conflicts of specified FILE (can be directory or even omitted) using version of files from repo.
+
 ### Merge few commits into one or drop commit
 
 	git rebase -i SHA
