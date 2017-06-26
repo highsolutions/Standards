@@ -16,6 +16,7 @@ Follow Style Guide for [PHP](/highsolutions/Standards/wiki/PHP).
 * Use config files to define every setting for application that is constant. Use .env variables when necessary.
 * Do not store API keys etc. inside code. Put them into .env or config files.
 * Dynamic settings store in database or in translation files (if depend on localization).
+* Use `config()` or `\Config::get()` methods instead of accessing configuration from `env()` method. 
 
 ## Controllers
 
