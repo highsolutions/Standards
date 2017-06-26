@@ -139,6 +139,15 @@ This command changes current branch to default branch of you repo (mostly *maste
 
 	git push origin master:new_branch_name
 
+### Move uncommitted changes to another branch
+
+	git stash
+	git stash branch new_branch stash@{0}
+
+Or if your new branch already existed:
+
+	git stash apply
+	
 ## Checking status of repo
 
 ### Checking status
