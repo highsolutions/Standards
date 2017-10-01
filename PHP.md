@@ -4,6 +4,8 @@ We're using [PSR-2 Coding Standard](https://docs.opnsense.org/development/guidel
 
 All good practices are mentioned in [PHP: The Right Way](http://www.phptherightway.com/).
 
+Clean code is also very important and good practices are mentioned in [Clean Code PHP](https://github.com/jupeter/clean-code-php).
+
 ## Overview of PSR-2
 
 * There MUST be one blank line after the namespace declaration, and there MUST be one blank line after the block of use declarations.
@@ -86,7 +88,7 @@ class Foo
 
 ### Methods
 
-* Property names MUST be declared in $camelCase
+* Method names MUST be declared in $camelCase
 * In the argument list, there MUST NOT be a space before each comma, and there MUST be one space after each comma.
 
 Example: 

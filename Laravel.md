@@ -8,12 +8,13 @@ Follow Style Guide for [PHP](/highsolutions/Standards/wiki/PHP).
 * Configure .env.server file to be ready to just rename it to .env on server.
 * Configure GitHub hook to Continuous Integration on every push.
 * Use *.dev or *.local developer domain on your local machine.
-* Do not store `.env` file, `composer.lock` file, `storage` folder, and `vendor` folder in repo.
+* Do not store `.env` file, `storage` folder, and `vendor` folder in repo.
 
 ## Configuration
 
 * Use `.env` files for every setting of application that can vary between developers computers, staging server and production server.
 * Use config files to define every setting for application that is constant. Use .env variables when necessary.
+* Config files must use `kebab-case`, when keys `snake_case`.
 * Do not store API keys etc. inside code. Put them into .env or config files.
 * Dynamic settings store in database or in translation files (if depend on localization).
 * Use `config()` or `\Config::get()` methods instead of accessing configuration from `env()` method. 
@@ -21,12 +22,15 @@ Follow Style Guide for [PHP](/highsolutions/Standards/wiki/PHP).
 ## Controllers
 
 * Organize controllers in subfolders when application consists of more than one module (e.g. Website, Admin, Auth).
-* Use [Resource Controllers](https://laravel.com/docs/controllers#resource-controllers) when possible and method names from this convention (index, show, create, store, edit, update, destroy). 
+* Use [Resource Controllers](https://laravel.com/docs/controllers#resource-controllers) when possible and method names from this convention (`index`, `show`, `create`, `store`, `edit`, `update`, `destroy`). 
+	* This controllers must be named in plurar case.
+* Do not use other methods on controller. If necessary, create new controller and follow convention. 
+	* E.g. when you have `favorite()` and `unfavorite()` methods, extract them to `FavoritesController` and use `store` and `destroy` methods.
 * Controllers for admin panel create using `Route::resource`. Use parameters `only` and `except` when necessary.
 * Methods should have only few responsibilities:
-  * Displaying data method
-    * Fetch data from repositories/services
-    * Display view with required data
+  * Displaying data
+	  * Fetch data from repositories/services
+	  * Display view with data
 
 Example:
 
@@ -36,20 +40,19 @@ Example:
  *
  * @return Response
  */
-public function show_category($category_id)
+public function show($category)
 {
-    $posts = $this->repo->getByCategory($category_id);
+    $posts = $this->repo->getByCategory($category);
 
-    return view('blog/posts', [
-        'posts' => $posts
-    ]);
+    return view('blog/posts', compact('posts'));
 }
 ```
 
-  * Receiving data method
-    * Validation of request's input
-    * Send input to Repository/Service and receive data/status
-    * Display view with required data or return response with data
+  * Receiving data
+		  * Authorization of request
+		  * Validation of request's input
+		  * Send input to Repository/Service and receive data/status
+		  * Display view with required data or return response with data
 
 Example:
 
@@ -61,7 +64,9 @@ Example:
  * @return Response
  */
 public function store(Request $request)
-{
+{	
+	$this->authorize('create');
+	
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
         'body' => 'required',
@@ -73,9 +78,10 @@ public function store(Request $request)
 }   
 ``` 
  
-  * With more advanced request validation, [FormRequest](https://laravel.com/docs/5.4/validation#form-request-validation) should be used.
+  * With more advanced request authorization and/or validation, [FormRequest](https://laravel.com/docs/5.4/validation#form-request-validation) should be used.
   * When method should act differently based on parameters/input data, use private methods to keep method clean and short.
   * When controller has to send many static data to view (not based on parameters), use [ViewComposer](https://laravel.com/docs/views#view-composers).
+  * When methods of controllers are complicated, extract each method into [RequestHandler](https://jenssegers.com/85/goodbye-controllers-hello-request-handlers) (Action-Domain-Responder pattern). 
 
 ## Services, Traits and Packages
 
@@ -83,7 +89,7 @@ public function store(Request $request)
   * **Services** - when you need simple functionality from the black-box
   * **Traits** - when you want to extend Model/Controller functionality
   * **Packages** - when you need full module (from vendor or your own)
-* Use Service Providers 
+* Use Service Providers and power of Illuminate Container
 
 ## Helpers and extending core
 
@@ -117,10 +123,20 @@ if (!function_exists('compare_floats')) {
 * Group routes logically and set namespace parameter when using catalogs for controllers.
 * Use prefixes in group routes instead of duplicate them in route url.
 
+## Views
+
+* View files must be named in `camelCase`.
+* Orgniaze views accordingly to controllers structure.
+* Divide Blade files into smaller partials.
+* Make components files reusable.
+* Don't use any unnecessary logic in view file.
+* Use `{{ __('file.key') }}` for translations when no using `transEditable` method.
+
 ## Commands
 
 * Write commands for operations which are launched only by developers in console.
-* Write descriptions to know what command do.
+* Write descriptions to know what command do and always returns information about finishing operation.
+* Names of commands should be `kebab-case`.
 * Use commands for cron operations via Artisan Scheduler.
 
 ## Cache
@@ -162,7 +178,7 @@ if (!function_exists('compare_floats')) {
 
 * Use queues for time-consuming operations like e-mail sending, image compressing, populating data.
 * Use redis when possible.
-* Install [Supervisor](https://laravel.com/docs/5.4/queues#supervisor-configuration) when possible.
+* Use [Laravel Horizon](https://laravel.com/docs/5.5/horizon) when possible.
 
 ## Tests
 
@@ -176,11 +192,9 @@ if (!function_exists('compare_floats')) {
 
 ```php
     /**
-     * Check if dasboard return 200 HTTP Response
-     *
-     * @return void
-     */
-    public function testDashboard()
+	 * @test
+	 */
+    public function dashboard_200()
     {       
         $response = $this->actingAs(User::find(1))
 			->get(route('dashboard'));        
@@ -188,7 +202,36 @@ if (!function_exists('compare_floats')) {
     }
 ```
 
-**Feature tests** 
+**Feature tests**
+
+* Should be most common type of written tests.
+* Prepares data, send request and checks if system behaved accordingly.
+
+```php
+/**
+ * @test
+ */
+public function user_can_store_a_post()
+{
+	$user = User::find(1);
+	$this->assertTrue(0, Post::count());
+	
+    $this->actingAs($user)
+		->post(route('post.store'), [
+			'title' => 'Title post',
+			'body' => 'Body post',
+		]);        
+
+	$this->assertTrue(1, Post::count());
+	tap(Post::first(), function ($post) use ($user) {
+		$this->assertEquals('Title post', $post->title);
+		$this->assertEquals('Body post', $post->body);
+		$this->assertEquals($user, $post->author);
+	});
+}
+```
+
+**Unit tests** 
 
 * Tests checking correctness of parts of code.
 * Use to check if given method or given functionality works properly.
@@ -246,8 +289,23 @@ public function testLoginClick()
 ## Packages
 
 * Encapsulate universal functionalities into packages for re-use in future projects.
-* If package is complete, refactored and useful - publish as Open Source projects. But be sure to make it as good as possible - your code is yours and ours visitcard.
-* During development, store packages in `App\Packages\`.
+* If package is complete, refactored and useful - publish as an Open Source projects. But be sure to make it as good as possible - your code is yours and ours visitcard.
+* During development, store packages in `App\Packages\` or use composer repository.
+	* In `composer.json` add name of your package with `dev-master` version, add new repository and after `composer update` your package will be accessible inside a project:
+```js
+	// ..
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./path/to/package",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+	// ..
+```
+
 * Prepare complete `readme.MD` file and tests of package (this is also a documentation).
 
 ## Good practices
