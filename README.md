@@ -4,6 +4,7 @@ HighSolutions Coding Standards
 ![HighSolutions coding standards](https://github.com/highsolutions/Standards/blob/master/intro.png?raw=true)
 
 1. [Code formatting](CodeFormatting.md)
+1. ~~[Software Development](SoftwareDevelopment.md]~~
 1. [PHP](PHP.md)
 1. [Laravel](Laravel.md)
 1. [SQL & Eloquent](SQL.md)
