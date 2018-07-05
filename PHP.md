@@ -52,7 +52,7 @@ class Foo extends Bar implements FooInterface
 * All PHP files MUST use the Unix LF (linefeed) line ending. All PHP files MUST end with a single blank line.
 * The closing ?> tag MUST be omitted from files containing only PHP.
 * There MUST NOT be trailing whitespace at the end of non-blank lines.
-* Each indentation is tab, 4 spaces length, consisted of one tab, not spaces [AGAINST PSR-2 RULES]
+* Each indentation MUST have 4 spaces characters
 
 ### Keywords 
 
