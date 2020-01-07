@@ -244,6 +244,24 @@ Repeat operation until the first commit introducing bug left. You will get SHA o
 
 Use them only when you are not pair programming.
 
+## Prefixes used by us
+
+When you will commit any changes, you should use in the message (-m) at least one of our prefixes which defines your work:
+
+- *[feature]* - when you have started/finished working on some stuff e.g feature, command
+- *[fix]* - when you have fixed a issue/issues or you have done an improvement/improvements
+- *[cr]* - when you have done changes which were reported by a person who reviewed your PR
+- *[refactoring]* - when you have refactored your code
+- *[merge]* - when you have merged differences
+- *[update]* - when you want to update media or other files' content e.g composer.json, package.json, readme etc.
+- *[wip]* - work in progress, when you still work on a task/change
+
+Remember that you can use more than one prefix.
+
+```vim
+[fix][update] user's migration & assets
+```
+
 ## Workflow
 
 ### Development on simple project
