@@ -209,9 +209,9 @@ foreach ($iterable as $key => $value) {
 
 ### Strings
 
-`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` � as `"` is for HTML attributes and parses variables.
+`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` - as `"` is for HTML attributes and parses variables.
 
-Don't use variables inside strings � they are better splitted like that:
+Don't use variables inside strings - they are better spitted like that:
 
 ```php
 echo 'A string with ' . $someVariable . ' and ' . SOME_CONSTANT . '!';
