@@ -13,6 +13,8 @@ Clean code is also very important and good practices are mentioned in [Clean Cod
 * Opening braces for methods MUST go on the next line, and closing braces MUST go on the next line after the body.
 * Opening parentheses for control structures MUST NOT have a space after them, and closing parentheses for control structures MUST NOT have a space before.
 * Use declarations SHOULD be in alphabetical order.
+* Use type declarations in method's parameters (https://www.php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration)
+* Return type declarations in methods (https://www.php.net/manual/en/functions.returning-values.php)
 
 Example:
 
@@ -28,7 +30,7 @@ use OtherVendor\OtherPackage\BazClass;
 class Foo extends Bar implements FooInterface
 {
 
-    public function sampleFunction($a, $b = null)
+    public function sampleFunction(float $a, ?float $b = null): float
     {
         if ($a === $b) {
             bar();
@@ -53,6 +55,7 @@ class Foo extends Bar implements FooInterface
 * The closing ?> tag MUST be omitted from files containing only PHP.
 * There MUST NOT be trailing whitespace at the end of non-blank lines.
 * Each indentation MUST have 4 spaces characters
+* Each line should have 120 characters per line
 
 ### Keywords 
 
@@ -148,8 +151,8 @@ The value to check against should be placed on the right side:
 ```php
 <?php
 
-// Faster and easier than is_null() call
-if ($value === null) {
+// More readable and efficient than ===
+if (is_null($value)) {
     // ...
 }
 ```
@@ -203,13 +206,13 @@ foreach ($iterable as $key => $value) {
 
 ### Strings
 
-`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` - as `"` is for HTML attributes and parses variables.
+`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` – as `"` is for HTML attributes and parses variables.
 
-Don't use variables inside strings - they are better splitted like that:
+Use variables inside strings with brackets:
 
 ```php
-echo 'A string with ' . $someVariable . ' and ' . SOME_CONSTANT . '!';
-echo '<a href="example.org" title="' . $title . '">Link</a>';
+echo "A string with {$someVariable}" . ' and ' . SOME_CONSTANT . '!';
+echo '<a href="example.org" title="{$title}">Link</a>';
 ```
 
 In case a string contains `'`, it is applicable to switch to ``" here to avoid the usage of `\` escapes:
@@ -221,13 +224,14 @@ $sql = "UPDATE TABLE 'foo' SET ContactName='Alfred Schmidt', City='Hamburg' WHER
 Use a space before and after `.`:
 
 ```php
-$myString = 'a string' . $variable . 'more string stuff etc';
+$myString = 'a string' . SOME_CONSTANT . 'more string stuff etc';
 ```
 
 All operators should go in the newline as first character:
 
 ```php
 $foo = 'Some String'
+    . SOME_CONSTANT
     . ' concatinated';
 ```
 
