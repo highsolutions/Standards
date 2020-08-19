@@ -91,7 +91,7 @@ class Foo
 
 ### Methods
 
-* Method names MUST be declared in $camelCase
+* Method names MUST be declared in `camelCase`
 * In the argument list, there MUST NOT be a space before each comma, and there MUST be one space after each comma.
 
 Example: 
@@ -118,6 +118,12 @@ Method chaining should have multiple methods spread across separate lines, and i
         ->to('bar@example.com')
         ->subject('A great message')
         ->send();
+
+### Quotes
+
+If it is pure text use single quotes, but if the text contains variables use double quotes.
+
+This is used in the performance sense, the Compiler will handle single quotes faster.
 
 ### Casting variables
 
@@ -309,6 +315,58 @@ $closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
     // body
 };
 ```
+
+### Functional programming > Structural programming
+
+One of the strengths of php is the possibility of functional programming. Use them!
+
+Example:
+
+```php
+//bad
+function foo(): array
+{
+    $names = [
+        'adam',
+        'maria',
+        'tom'
+    ];
+
+    $upperNames = [];
+    
+    foreach($names as $name) {
+        $upperNames[] = strtoupper($name);
+    }
+
+    return $upperNames; 
+}
+
+//good
+
+function foo(): array
+{
+    $names = [
+        'adam',
+        'maria',
+        'tom'
+    ];
+
+    return array_map( function($name) {
+        return strtoupper($name);
+    }, $names);
+
+}
+```
+
+#### More functions:
+* [array_filter](https://www.php.net/manual/en/function.array-filter.php)
+* [array_reduce](https://www.php.net/manual/en/function.array-reduce.php)
+* [array_walk](https://www.php.net/manual/en/function.array-walk.php)
+
+#### More information about functional programming in PHP
+* [Great first step article](https://apiumhub.com/tech-blog-barcelona/functional-php/)
+
+
 
 ### Convention of method names
 
