@@ -13,6 +13,8 @@ Clean code is also very important and good practices are mentioned in [Clean Cod
 * Opening braces for methods MUST go on the next line, and closing braces MUST go on the next line after the body.
 * Opening parentheses for control structures MUST NOT have a space after them, and closing parentheses for control structures MUST NOT have a space before.
 * Use declarations SHOULD be in alphabetical order.
+* Use type declarations in method's parameters (https://www.php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration)
+* Return type declarations in methods (https://www.php.net/manual/en/functions.returning-values.php)
 
 Example:
 
@@ -28,7 +30,7 @@ use OtherVendor\OtherPackage\BazClass;
 class Foo extends Bar implements FooInterface
 {
 
-    public function sampleFunction($a, $b = null)
+    public function sampleFunction(float $a, ?float $b = null): float
     {
         if ($a === $b) {
             bar();
@@ -53,6 +55,7 @@ class Foo extends Bar implements FooInterface
 * The closing ?> tag MUST be omitted from files containing only PHP.
 * There MUST NOT be trailing whitespace at the end of non-blank lines.
 * Each indentation MUST have 4 spaces characters
+* Each line should have 120 characters per line
 
 ### Keywords 
 
@@ -154,8 +157,8 @@ The value to check against should be placed on the right side:
 ```php
 <?php
 
-// Faster and easier than is_null() call
-if ($value === null) {
+// More readable and efficient than ===
+if (is_null($value)) {
     // ...
 }
 ```
@@ -209,13 +212,13 @@ foreach ($iterable as $key => $value) {
 
 ### Strings
 
-`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` - as `"` is for HTML attributes and parses variables.
+`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` – as `"` is for HTML attributes and parses variables.
 
-Don't use variables inside strings - they are better spitted like that:
+Use variables inside strings with brackets:
 
 ```php
-echo 'A string with ' . $someVariable . ' and ' . SOME_CONSTANT . '!';
-echo '<a href="example.org" title="' . $title . '">Link</a>';
+echo "A string with {$someVariable}" . ' and ' . SOME_CONSTANT . '!';
+echo '<a href="example.org" title="{$title}">Link</a>';
 ```
 
 In case a string contains `'`, it is applicable to switch to ``" here to avoid the usage of `\` escapes:
@@ -227,13 +230,14 @@ $sql = "UPDATE TABLE 'foo' SET ContactName='Alfred Schmidt', City='Hamburg' WHER
 Use a space before and after `.`:
 
 ```php
-$myString = 'a string' . $variable . 'more string stuff etc';
+$myString = 'a string' . SOME_CONSTANT . 'more string stuff etc';
 ```
 
 All operators should go in the newline as first character:
 
 ```php
 $foo = 'Some String'
+    . SOME_CONSTANT
     . ' concatinated';
 ```
 
@@ -350,8 +354,8 @@ function foo(): array
     return array_map( function($name) {
         return strtoupper($name);
     }, $names);
-}
 
+}
 ```
 
 #### More functions:
@@ -361,3 +365,203 @@ function foo(): array
 
 #### More information about functional programming in PHP
 * [Great first step article](https://apiumhub.com/tech-blog-barcelona/functional-php/)
+
+
+
+### Convention of method names
+
+#### The methods name should start with the verb
+```php
+//bad
+public function firstName()
+{
+
+}
+
+
+//good
+public function getFirstName()
+{
+
+}
+
+```
+#### Basic verbs to be used in the first order and when creating a method name
+The most commonly used method name beginnings.
+
+|Verb  |Description  |Example  | Return
+|--|---|---|---|
+|get   | Get the data  | getUserPosts()  | string/int/float/array/object/null
+|set   | Set the data  | setFirstName()  | self/null
+|is   | Returns the state  | isUserAuthenticated()  | boolean
+|count   | Count the data  | countUsersPosts()  | int
+|can   | Check if object can do something  | canUpdatePost()  | boolean
+|find   | Find by criteria  | findById()  | array/object/null
+
+
+
+
+#### Return methods types
+
+```php
+//bad
+public function getFirstName()
+{
+    return 'foo bar';
+}
+
+//better
+
+/*
+* @return string Get user name.
+*/
+public function getFirstName()
+{
+
+    return 'foo bar';
+}
+
+
+//the best
+public function getFirstName(): string
+{
+
+    return 'foo bar';
+}
+
+```
+
+#### Type arguments
+
+```php
+//bad
+
+public function getUserById($id)
+{
+
+}
+
+}
+
+//the best
+public function getFirstName(int $id): string
+{
+
+}
+
+```
+
+#### Do not use the method for more than one responsibility
+
+```php
+//bad
+public function getCarsName($used = true)
+{
+
+}
+
+//good
+public function getUsedCarsName()
+{
+
+}
+
+public function getNewCarsName()
+{
+
+}
+
+```
+#### Do not use shortcuts
+```php
+//bad
+public function calcAbsNum()
+{
+
+}
+
+//good
+
+public function calculateAbsoluteNumber()
+{
+
+}
+```
+
+#### Break up big functionality into many small ones
+```php
+
+//bad
+public function calculateValueByAddingAndMultiplying($ourNumber, $a, $b)
+{
+
+}
+
+
+//good
+public function add(int $baseNumber, int $number)
+{
+
+} 
+
+public function multiply(int $baseNumber, int $number)
+{
+
+}
+
+```
+
+#### Pass on primary variables saved as constants as an argument, do not pass them on in a straight line
+```php
+//bad
+myFunnyFunction(4, [], true, 'qwerty');
+
+//good
+myFunnyFunction(User::ADMIN_USER_ID, Response::EMPTY_HEADER,Response::JSON, Keyboard::QWERTY_KEYBOARD);
+```
+
+#### Don't make too general names
+```php
+//bad
+public function getData()
+{
+
+}
+
+//the best
+public function getUserProfileDetails()
+{
+
+}
+```
+
+
+#### Do not create overly accurate names (reduces re-use of methods)
+```php
+//bad
+public function getUserProfileDetailsSortedByUserNameAndUserEmail()
+{
+
+}
+
+
+//the best
+public function getUserProfileDetails(string $sortedBy)
+{
+
+}
+```
+
+####  If only you can shorten the names of the methods
+```php
+//bad
+public function getUserFriendsFromDatabase()
+{
+
+}
+
+//good
+public function getUserFriends()
+{
+
+}
