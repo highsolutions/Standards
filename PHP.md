@@ -203,9 +203,9 @@ foreach ($iterable as $key => $value) {
 
 ### Strings
 
-`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` � as `"` is for HTML attributes and parses variables.
+`'` or `"`? Both work, as long as they are used consistent throughout a file. It is recommended to use the single `'` - as `"` is for HTML attributes and parses variables.
 
-Don't use variables inside strings � they are better splitted like that:
+Don't use variables inside strings - they are better splitted like that:
 
 ```php
 echo 'A string with ' . $someVariable . ' and ' . SOME_CONSTANT . '!';
@@ -325,12 +325,17 @@ public function getFirstName()
 
 ```
 #### Basic verbs to be used in the first order and when creating a method name
+The most commonly used method name beginnings.
+
 |Verb  |Description  |Example  | Return
 |--|---|---|---|
 |get   | Get the data  | getUserPosts()  | string/int/float/array/object/null
 |set   | Set the data  | setFirstName()  | self/null
 |is   | Returns the state  | isUserAuthenticated()  | boolean
 |count   | Count the data  | countUsersPosts()  | int
+|can   | Check if object can do something  | canUpdatePost()  | boolean
+|find   | Find by criteria  | findById()  | array/object/null
+
 
 
 
@@ -374,25 +379,17 @@ public function getUserById($id)
 
 }
 
-//better
-
-/*
-* @param int $id User id.
-*/
-public function getFirstName($id)
-{
-
 }
 
 //the best
-public function getFirstName(int $id)
+public function getFirstName(int $id): string
 {
 
 }
 
 ```
 
-#### Do not use `flags` (basic booleans) in methods, create new methods
+#### Do not use the method for more than one responsibility
 
 ```php
 //bad
@@ -431,6 +428,7 @@ public function calculateAbsoluteNumber()
 
 #### Break up big functionality into many small ones
 ```php
+
 //bad
 public function calculateValueByAddingAndMultiplying($ourNumber, $a, $b)
 {
@@ -468,12 +466,6 @@ public function getData()
 
 }
 
-//better
-public function getUserData()
-{
-
-}
-
 //the best
 public function getUserProfileDetails()
 {
@@ -490,11 +482,6 @@ public function getUserProfileDetailsSortedByUserNameAndUserEmail()
 
 }
 
-//better
-public function getSortedUserProfileDetails()
-{
-
-}
 
 //the best
 public function getUserProfileDetails(string $sortedBy)
