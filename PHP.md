@@ -309,3 +309,201 @@ $closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
     // body
 };
 ```
+
+### Convention of method names
+
+#### The methods name should start with the verb
+```php
+//bad
+public function firstName()
+{
+
+}
+
+
+//good
+public function getFirstName()
+{
+
+}
+
+```
+#### Basic verbs to be used in the first order and when creating a method name
+The most commonly used method name beginnings.
+
+|Verb  |Description  |Example  | Return
+|--|---|---|---|
+|get   | Get the data  | getUserPosts()  | string/int/float/array/object/null
+|set   | Set the data  | setFirstName()  | self/null
+|is   | Returns the state  | isUserAuthenticated()  | boolean
+|count   | Count the data  | countUsersPosts()  | int
+|can   | Check if object can do something  | canUpdatePost()  | boolean
+|find   | Find by criteria  | findById()  | array/object/null
+
+
+
+
+#### Return methods types
+
+```php
+//bad
+public function getFirstName()
+{
+    return 'foo bar';
+}
+
+//better
+
+/*
+* @return string Get user name.
+*/
+public function getFirstName()
+{
+
+    return 'foo bar';
+}
+
+
+//the best
+public function getFirstName(): string
+{
+
+    return 'foo bar';
+}
+
+```
+
+#### Type arguments
+
+```php
+//bad
+
+public function getUserById($id)
+{
+
+}
+
+}
+
+//the best
+public function getFirstName(int $id): string
+{
+
+}
+
+```
+
+#### Do not use the method for more than one responsibility
+
+```php
+//bad
+public function getCarsName($used = true)
+{
+
+}
+
+//good
+public function getUsedCarsName()
+{
+
+}
+
+public function getNewCarsName()
+{
+
+}
+
+```
+#### Do not use shortcuts
+```php
+//bad
+public function calcAbsNum()
+{
+
+}
+
+//good
+
+public function calculateAbsoluteNumber()
+{
+
+}
+```
+
+#### Break up big functionality into many small ones
+```php
+
+//bad
+public function calculateValueByAddingAndMultiplying($ourNumber, $a, $b)
+{
+
+}
+
+
+//good
+public function add(int $baseNumber, int $number)
+{
+
+} 
+
+public function multiply(int $baseNumber, int $number)
+{
+
+}
+
+```
+
+#### Pass on primary variables saved as constants as an argument, do not pass them on in a straight line
+```php
+//bad
+myFunnyFunction(4, [], true, 'qwerty');
+
+//good
+myFunnyFunction(User::ADMIN_USER_ID, Response::EMPTY_HEADER,Response::JSON, Keyboard::QWERTY_KEYBOARD);
+```
+
+#### Don't make too general names
+```php
+//bad
+public function getData()
+{
+
+}
+
+//the best
+public function getUserProfileDetails()
+{
+
+}
+```
+
+
+#### Do not create overly accurate names (reduces re-use of methods)
+```php
+//bad
+public function getUserProfileDetailsSortedByUserNameAndUserEmail()
+{
+
+}
+
+
+//the best
+public function getUserProfileDetails(string $sortedBy)
+{
+
+}
+```
+
+####  If only you can shorten the names of the methods
+```php
+//bad
+public function getUserFriendsFromDatabase()
+{
+
+}
+
+//good
+public function getUserFriends()
+{
+
+}
